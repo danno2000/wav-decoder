@@ -86,7 +86,6 @@ function decodeData(reader, chunkSize, format, opts) {
 
   var length = Math.floor(chunkSize / format.blockSize);
   var numberOfChannels = format.numberOfChannels;
-  var sampleRate = format.sampleRate;
   var channelData = new Array(numberOfChannels);
 
   for (var ch = 0; ch < numberOfChannels; ch++) {
@@ -99,12 +98,11 @@ function decodeData(reader, chunkSize, format, opts) {
     return retVal;
   }
 
-  return {
-    numberOfChannels: numberOfChannels,
-    length: length,
-    sampleRate: sampleRate,
-    channelData: channelData
-  };
+  return Object.assign(
+    {
+      length: length,
+      channelData: channelData
+    }, format);
 }
 
 function readPCM(reader, channelData, length, format, opts) {
